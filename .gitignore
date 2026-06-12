@@ -1,0 +1,25 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Node / Wrangler
+node_modules/
+.wrangler/
+npm-debug.log*
+
+# Secrets / local config
+.env
+.dev.vars
+*.pem
+*.key
+
+# OS
+.DS_Store
+
+# Local evidence files may contain machine paths, usernames, timestamps or deployed URLs.
+# Keep only sanitized examples in the repository.
+evidence/*
+!evidence/README.md
+!evidence/sample-run-summary.md

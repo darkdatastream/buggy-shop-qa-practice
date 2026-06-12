@@ -1,0 +1,6 @@
+name = "buggy-shop-qa-practice"
+main = "worker.js"
+compatibility_date = "2026-06-12"
+
+[observability]
+enabled = true

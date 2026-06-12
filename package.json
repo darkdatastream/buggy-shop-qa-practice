@@ -1,0 +1,13 @@
+{
+  "name": "buggy-shop-qa-practice",
+  "version": "1.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Cloudflare Workers QA practice API with intentional bugs, traceability, pytest tests and safety checks.",
+  "scripts": {
+    "check:worker": "node --check worker.js",
+    "scan:security": "python3 scripts/security_scan.py",
+    "test:python": "pytest -q",
+    "quality:local": "npm run check:worker && npm run scan:security && pytest -q"
+  }
+}

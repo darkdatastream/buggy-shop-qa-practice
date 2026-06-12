@@ -1,0 +1,56 @@
+name: QA checks
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Check Worker JavaScript syntax
+        run: node --check worker.js
+
+      - name: Install Wrangler
+        run: npm install -g wrangler
+
+      - name: Start local Worker
+        run: |
+          wrangler dev --local --port 8787 > wrangler-dev.log 2>&1 &
+          echo $! > wrangler-dev.pid
+          for i in {1..30}; do
+            if curl -fsS http://127.0.0.1:8787/api/health > /dev/null; then
+              echo "Worker is ready"
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "Worker did not start"
+          cat wrangler-dev.log
+          exit 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install Python test dependencies
+        run: pip install -r requirements-test.txt
+
+      - name: Run repository security scan
+        run: python3 scripts/security_scan.py
+
+      - name: Run pytest API tests
+        env:
+          BASE_URL: http://127.0.0.1:8787
+        run: pytest -q
