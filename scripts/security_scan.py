@@ -40,22 +40,8 @@ TEXT_SUFFIXES = {
     ".editorconfig",
 }
 
-# Project-owned public names are allowed. Personal machine/user identifiers are not.
-IDENTITY_PATTERNS = [
-    re.compile(pattern, re.IGNORECASE)
-    for pattern in [
-        r"\b***REMOVED***\b",
-        r"***REMOVED***",
-        r"\b***REMOVED***\b",
-        r"***REMOVED***",
-        r"\b***REMOVED***\b",
-        r"\b***REMOVED***\b",
-        r"***REMOVED***",
-        r"darkdatastream",
-        r"proton\.me",
-        r"gmail\.com",
-    ]
-]
+# Do not hardcode personal identifiers in a public repository.
+IDENTITY_PATTERNS: list[re.Pattern[str]] = []
 
 SECRET_PATTERNS = [
     re.compile(pattern, re.IGNORECASE)
